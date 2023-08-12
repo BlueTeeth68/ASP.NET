@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.Interface
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {
 
-        IEnumerable<T> FindAll();
+        Task<List<TEntity>> GetAllAsync();
 
-        T FindById(Object id);
+        Task<TEntity> GetByIdAsync(int id);
 
-        void Update(T entity);
+        Task AddAsync(TEntity entity); 
 
-        void DeleteById(Object id);
+        void Update(TEntity entity);
 
-        void SaveChange();
+        void DeleteById(int id);
+
 
 
     }

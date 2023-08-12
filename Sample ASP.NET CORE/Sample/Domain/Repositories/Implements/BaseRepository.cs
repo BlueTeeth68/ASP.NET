@@ -1,4 +1,5 @@
 ﻿using Domain.Data;
+using Domain.Entities;
 using Infrastructure.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,40 +10,44 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.Implements
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        protected readonly ApplicationDbContext dbContext;
-        protected readonly DbSet<T> dbSet;
+        protected DbSet<TEntity> _dbSet;
 
-        public BaseRepository()
+        public BaseRepository(ApplicationDbContext context)
         {
-            dbContext = new ApplicationDbContext();
-
+            _dbSet = context.Set<TEntity>();
         }
 
-        public void DeleteById(object id)
+        public async Task AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+           await _dbSet.AddAsync(entity);
         }
 
-        public IEnumerable<T> FindAll()
+        public void DeleteById(int id)
         {
-            throw new NotImplementedException();
+            TEntity entity = GetByIdAsync(id).Result;
+            if(entity != null)
+            {
+                _dbSet.Remove(entity);
+            }
         }
 
-        public T FindById(object id)
+        public async Task<List<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var result = await _dbSet.ToListAsync();
+            return result;
         }
 
-        public void SaveChange()
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
+            return result;
         }
 
-        public void Update(T entity)
+        public void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Update(entity);
         }
     }
 }
