@@ -13,41 +13,45 @@ namespace Infrastructure.Repositories.Implements
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         protected DbSet<TEntity> _dbSet;
+        protected ApplicationDbContext _context;
 
         public BaseRepository(ApplicationDbContext context)
         {
-            _dbSet = context.Set<TEntity>();
+            _context = context;
+            _dbSet = _context.Set<TEntity>();
         }
 
-        public async Task AddAsync(TEntity entity)
+        public async Task<int> AddAsync(TEntity entity)
         {
            await _dbSet.AddAsync(entity);
+           return await _context.SaveChangesAsync();
         }
 
-        public void DeleteById(int id)
+        public async Task DeleteById(int id)
         {
-            TEntity entity = GetByIdAsync(id).Result;
+            TEntity entity = await GetByIdAsync(id);
             if(entity != null)
             {
                 _dbSet.Remove(entity);
+                await _context.SaveChangesAsync();
             }
         }
 
         public async Task<List<TEntity>> GetAllAsync()
         {
-            var result = await _dbSet.ToListAsync();
-            return result;
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            var result = await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
-            return result;
+           return await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
+            
         }
 
-        public void Update(TEntity entity)
+        public async Task<int> Update(TEntity entity)
         {
-            _dbSet.Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+           return await _context.SaveChangesAsync();
         }
     }
 }

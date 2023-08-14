@@ -14,13 +14,11 @@ namespace Infrastructure.Repositories.Interface
 
         Task<TEntity> GetByIdAsync(int id);
 
-        Task AddAsync(TEntity entity); 
+        Task<int> AddAsync(TEntity entity); 
 
-        void Update(TEntity entity);
+        Task<int> Update(TEntity entity);
 
-        void DeleteById(int id);
-
-
+        Task DeleteById(int id);
 
     }
 }

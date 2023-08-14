@@ -13,7 +13,6 @@ namespace Sample.Entities
     {
 
         [Required(ErrorMessage = "Full name is required.")]
-        //[Column("full_name")]
         public string FullName { get; set; }
 
         public Gender Gender { get; set; } = Gender.Male;
