@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="ErrorHandlers\" />
     <Folder Include="Service\Interface\" />
-    <Folder Include="Service\Implement\" />
   </ItemGroup>
 
   <ItemGroup>
