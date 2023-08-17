@@ -23,8 +23,14 @@ namespace WebAPI.Controllers
             return Ok(await userService.GetAllAsync());
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await userService.GetByIdAsync(id));
+        }
+
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> CreateNew(CreateUserDTO createUserDTO)
+        public async Task<IActionResult> CreateNew(CreateUserDTO createUserDTO)
         {
             var createdUser = await userService.CreateUser(createUserDTO);
             if (createdUser != null)
@@ -33,6 +39,18 @@ namespace WebAPI.Controllers
             }
 
             return BadRequest("Unable to create the user.");
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserDTO updateUserDTO)
+        {
+            return Ok(await userService.UpdateUser(id, updateUserDTO));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteById(int id) {
+            await userService.DeleteUser(id);
+            return Ok();
         }
 
     }

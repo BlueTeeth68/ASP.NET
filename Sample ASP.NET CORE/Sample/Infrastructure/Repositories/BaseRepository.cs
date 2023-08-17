@@ -21,10 +21,9 @@ namespace Infrastructure.Repositories
             _dbSet = _context.Set<TEntity>();
         }
 
-        public async Task<int> AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
-            return await _context.SaveChangesAsync();
         }
 
         public async Task DeleteById(int id)
@@ -33,7 +32,6 @@ namespace Infrastructure.Repositories
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
             }
         }
 
@@ -48,10 +46,16 @@ namespace Infrastructure.Repositories
 
         }
 
-        public async Task<int> Update(TEntity entity)
+        public async Task<int> SaveChangesAsync()
         {
-            _context.Entry(entity).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }
+
+        public void Update(TEntity entity)
+        {
+            //return _context.Entry(entity).State = EntityState.Modified;
+            _dbSet.Update(entity);
+        }
+
     }
 }

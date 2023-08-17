@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.User;
+using AutoMapper.Configuration.Conventions;
 using Sample.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Application.Interfaces.Services
         Task<UserDTO> GetByIdAsync(int id);
         Task<UserDTO> CreateUser(CreateUserDTO createUserDTO);
         Task DeleteUser(int id);
-        Task<UserDTO> UpdateUser(User user);
+        Task<UserDTO> UpdateUser(int id, UpdateUserDTO updateUser );
 
     }
 }

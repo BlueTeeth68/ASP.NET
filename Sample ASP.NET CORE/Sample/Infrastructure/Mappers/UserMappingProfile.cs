@@ -21,6 +21,10 @@ namespace Application.Mappers
                 .ForMember(dest => dest.Role, src => src.MapFrom(src => src.Role.ToString()))
                 .ForMember(dest => dest.Gender, src => src.MapFrom(src => src.Gender.ToString()))
                 .ReverseMap();
+
+            CreateMap<UpdateUserDTO, User>()
+                .ForMember(dest => dest.Gender, src => src.MapFrom(src => Enum.Parse<Gender>(src.Gender)))
+                .ForMember(dest => dest.Role, src => src.MapFrom(src => Enum.Parse<Role>(src.Role)));
         }
     }
 }
