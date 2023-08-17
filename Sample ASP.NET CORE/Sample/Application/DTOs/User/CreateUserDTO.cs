@@ -14,7 +14,7 @@ namespace Application.DTOs.User
         [Required(ErrorMessage = "Full name is required.")]
         public string FullName { get; init; }
 
-        public Gender Gender { get; init; } = Gender.Male;
+        public string? Gender { get; init; } = "Male";
 
         [Required(ErrorMessage = "Username is required.")]
         public string Username{ get; init; }

@@ -19,13 +19,13 @@ namespace Application.DTOs.User
         [Required(ErrorMessage = "Full name is required.")]
         public string FullName { get; set; }
 
-        public Gender Gender { get; set; } = Gender.Male;
+        public String Gender { get; set; }
 
         [Required(ErrorMessage = "Username is required.")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Role can not be null")]
-        public Role Role { get; set; }
+        public String Role { get; set; }
 
         //[Column("avatar_url")]
         public string? AvatarUrl { get; set; }

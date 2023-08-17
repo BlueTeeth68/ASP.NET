@@ -12,11 +12,14 @@ namespace Application.Mappers
 {
     public class UserMappingProfile : Profile
     {
-        protected UserMappingProfile()
+        public UserMappingProfile()
         {
             CreateMap<CreateUserDTO, User>()
-                .ReverseMap();
+                .ForMember(dest => dest.Gender, src => src.MapFrom(src => Enum.Parse<Gender>(src.Gender)));
+
             CreateMap<User, UserDTO>()
+                .ForMember(dest => dest.Role, src => src.MapFrom(src => src.Role.ToString()))
+                .ForMember(dest => dest.Gender, src => src.MapFrom(src => src.Gender.ToString()))
                 .ReverseMap();
         }
     }

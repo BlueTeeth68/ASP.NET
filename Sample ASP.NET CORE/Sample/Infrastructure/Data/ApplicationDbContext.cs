@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Sample.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,22 @@ namespace Domain.Data
         }
 
         public DbSet<User> Users { get; set; }
+
+
+       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(GetConnectionString());
+            }
+        }
+
+        public String GetConnectionString()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            IConfiguration configuration = builder.Build();
+            return configuration.GetConnectionString("Default");
+        }*/
     }
 }
