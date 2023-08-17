@@ -1,12 +1,11 @@
-﻿using Infrastructure.Repositories.Interface;
-using Sample.Entities;
+﻿using Sample.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Repositories.Interface
+namespace Application.Interfaces.Repositories
 {
     public interface IUserRepository : IBaseRepository<User>
     {

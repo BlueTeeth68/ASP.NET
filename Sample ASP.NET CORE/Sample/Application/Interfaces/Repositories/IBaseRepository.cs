@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories.Interface
+namespace Application.Interfaces.Repositories
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {
@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories.Interface
 
         Task<TEntity> GetByIdAsync(int id);
 
-        Task<int> AddAsync(TEntity entity); 
+        Task<int> AddAsync(TEntity entity);
 
         Task<int> Update(TEntity entity);
 
