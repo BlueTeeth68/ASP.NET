@@ -14,20 +14,20 @@ namespace Application.Services
 {
     public class UserService : IUserService
     {
-        protected readonly IUserRepository userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         public async Task<UserDTO> CreateUser(CreateUserDTO createUserDTO)
         {
             var userObj = _mapper.Map<User>(createUserDTO);
-            await userRepository.AddAsync(userObj);
-            var result = await userRepository.SaveChangesAsync();
+            await _unitOfWork.UserRepository.AddAsync(userObj);
+            var result = await _unitOfWork.SaveChangesAsync();
             if (result > 0)
             {
                 var createdUser = await GetByIdAsync(userObj.Id);
@@ -39,20 +39,20 @@ namespace Application.Services
 
         public async Task DeleteUser(int id)
         {
-            await userRepository.DeleteById(id);
-            await userRepository.SaveChangesAsync();
+            await _unitOfWork.UserRepository.DeleteById(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<List<UserDTO>> GetAllAsync()
         {
-            var users = await userRepository.GetAllAsync();
+            var users = await _unitOfWork.UserRepository.GetAllAsync();
             var userDTOs = _mapper.Map<List<UserDTO>>(users);
             return userDTOs;
         }
 
         public async Task<UserDTO> GetByIdAsync(int id)
         {
-            var user = await userRepository.GetByIdAsync(id);
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
             var userDTO = _mapper.Map<UserDTO>(user);
             return userDTO;
         }
@@ -64,7 +64,7 @@ namespace Application.Services
                 //throw exceptions
                 return null;
             }
-            var userObj = await userRepository.GetByIdAsync(id);
+            var userObj = await _unitOfWork.UserRepository.GetByIdAsync(id);
             if (updateUserDTO.FullName != null) { 
                 userObj.FullName = updateUserDTO.FullName;
             } 
@@ -78,11 +78,11 @@ namespace Application.Services
                 userObj.Role = Enum.Parse<Role>(updateUserDTO.Role);
             }
 
-            userRepository.Update(userObj);
-            var result = await userRepository.SaveChangesAsync();
+            _unitOfWork.UserRepository.Update(userObj);
+            var result = await _unitOfWork.SaveChangesAsync();
             if(result > 0 )
             {
-                var updateUser = await userRepository.GetByIdAsync(id);
+                var updateUser = await _unitOfWork.UserRepository.GetByIdAsync(id);
                 var returnUserDTO = _mapper.Map<UserDTO>(updateUser);
                 return returnUserDTO;
             }

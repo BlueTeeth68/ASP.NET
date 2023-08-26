@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure
+namespace Domain.Enums
 {
-    internal class UnitOfWork
+    public enum Gender
     {
+        Male = 1,
+        Female= 2
     }
 }

@@ -3,6 +3,7 @@ using Application.Interfaces.Services;
 using Application.Mappers;
 using Application.Services;
 using Domain.Data;
+using Infrastructure;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace Application
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Add db context
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(databaseConnection));

@@ -20,8 +20,5 @@ namespace Application.Interfaces.Repositories
 
         Task DeleteById(int id);
 
-
-        Task<int> SaveChangesAsync();
-
     }
 }
