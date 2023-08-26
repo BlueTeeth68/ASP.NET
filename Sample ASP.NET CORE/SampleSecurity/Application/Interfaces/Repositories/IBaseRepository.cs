@@ -8,15 +8,15 @@ namespace Application.Interfaces.Repositories
 {
     public interface IBaseRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> GetById(object id);
+        Task<TEntity> GetByIdAsync(object id);
 
-        Task<IEnumerable<TEntity>> GetAll();
+        Task<List<TEntity>> GetAllAsync();
 
-        Task Add(TEntity entity);
+        Task AddAsync(TEntity entity);
 
-        Task Update (TEntity entity);   
+        void Update (TEntity entity);
 
-
+        Task DeleteByIdAsync(object id);
         
 
 

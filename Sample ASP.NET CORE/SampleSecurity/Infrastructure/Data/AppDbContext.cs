@@ -14,6 +14,6 @@ namespace Domain
         {
         }
 
-        public DbSet<User> users;
+        public DbSet<User> Users { get; set; }
     }
 }

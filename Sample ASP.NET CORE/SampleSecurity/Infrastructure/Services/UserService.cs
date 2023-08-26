@@ -1,0 +1,58 @@
+﻿using Application.DTOs;
+using Application.Interfaces.Services;
+using AutoMapper;
+using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Services
+{
+    public class UserService : IUserService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
+
+        public async Task<UserDTO> CreateNewAsync(CreateUserDTO createUserDTO)
+        {
+            var userObj = _mapper.Map<User>(createUserDTO);
+            await _unitOfWork.UserRepository.AddAsync(userObj);
+            var result = await _unitOfWork.SaveChangeAsync();
+            if(result > 0)
+            {
+                var createdUserObj = await _unitOfWork.UserRepository.GetByIdAsync(userObj.Id);
+                var returnUser = _mapper.Map<UserDTO>(createdUserObj);
+                return returnUser;
+            }
+            return null;
+        }
+
+        public async Task<int> DeleteAsync(int id)
+        {
+            await _unitOfWork.UserRepository.DeleteByIdAsync(id);
+            return await _unitOfWork.SaveChangeAsync();
+        }
+
+        public async Task<List<UserDTO>> GetAllAsync()
+        {
+            var users = await _unitOfWork.UserRepository.GetAllAsync();
+            var userDTOs = _mapper.Map<List<UserDTO>>(users);
+            return userDTOs;
+        }
+
+        public async Task<UserDTO> GetByIdAsync(int id)
+        {
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+            var userDTO = _mapper.Map<UserDTO>(user);
+            return userDTO;
+        }
+    }
+}
