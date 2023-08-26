@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateNew(CreateUserDTO createUserDTO)
+        public async Task<ActionResult> Register([FromBody] CreateUserDTO createUserDTO)
         {
             //var user = await userService.CreateNewAsync(createUserDTO);
             //return Ok(user);
@@ -40,14 +40,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetById(int id)
+        public async Task<ActionResult<UserDTO>> GetById([FromRoute] int id)
         {
             var user = await userService.GetByIdAsync(id);
             return Ok(user);
         }
 
         [HttpDelete("id")]
-        public async Task<ActionResult> DeleteById(int id)
+        public async Task<ActionResult> DeleteById([FromRoute] int id)
         {
             var result = await userService.DeleteAsync(id);
             if(result > 0)

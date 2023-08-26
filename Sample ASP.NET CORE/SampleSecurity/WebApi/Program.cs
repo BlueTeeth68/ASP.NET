@@ -9,13 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 //Add dependency injection
 var configuration = builder.Configuration.Get<AppConfiguration>();
 configuration.DatabaseConnection = builder.Configuration.GetConnectionString("DefaultConnection");
-configuration.JWTSecretKey = builder.Configuration["JWTSecretKey"];
+configuration.JWTAcessSecretKey = builder.Configuration["JWTAccessSecretKey"];
+configuration.JWTRefreshSecretKey = builder.Configuration["JWTRefreshSecretKey"];
 builder.Services.AddDependency(configuration.DatabaseConnection);
 builder.Services.AddSingleton(configuration);
 
+//allow enum string value in swagger and front-end instead of int value
 builder.Services.AddControllers()
     .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
-
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
