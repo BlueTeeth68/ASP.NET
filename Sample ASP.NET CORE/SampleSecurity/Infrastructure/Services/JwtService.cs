@@ -27,12 +27,12 @@ namespace Infrastructure.Services
             //create claims:
             var claims = new[]
             {
-                new Claim("sub", user.Username),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim("role", user.Role.ToString())
             };
 
             //create signing key
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JWTAcessSecretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Key));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             //create token
@@ -40,27 +40,25 @@ namespace Infrastructure.Services
             {
                 Subject = new ClaimsIdentity(claims),
                 IssuedAt = DateTime.UtcNow,
-                Expires = DateTime.UtcNow.AddHours(2),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = credentials
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
-
 
         public string GenerateRefreshToken(User user)
         {
             //create claims:
             var claims = new[]
             {
-                new Claim("sub", user.Username),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim("role", user.Role.ToString())
             };
 
             //create signing key
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JWTRefreshSecretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Key));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             //create token
@@ -68,27 +66,12 @@ namespace Infrastructure.Services
             {
                 Subject = new ClaimsIdentity(claims),
                 IssuedAt = DateTime.UtcNow,
-                Expires = DateTime.UtcNow.AddHours(2),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = credentials
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
-        }
-
-        public bool isAccessTokenValid(string token)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool isRefreshTokenValid(string refreshToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool isTokenExpired(string token)
-        {
-            return ExtractExpirationDate(token) < DateTime.UtcNow;
         }
 
         public DateTime ExtractExpirationDate(string token)

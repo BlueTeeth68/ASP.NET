@@ -11,9 +11,6 @@ namespace Application.Interfaces.Services
     {
         string GenerateAccessToken(User user);
         string GenerateRefreshToken(User user);
-        bool isAccessTokenValid(string token);
-        bool isRefreshTokenValid(string refreshToken);
-        bool isTokenExpired(string token);
 
 
     }

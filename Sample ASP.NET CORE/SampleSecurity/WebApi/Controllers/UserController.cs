@@ -1,12 +1,14 @@
 ﻿using Application.DTOs;
 using Application.Interfaces.Services;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
     [Route("api/v1/users")]
     [Controller]
+    [Authorize]
     public class UserController : Controller
     {
 
