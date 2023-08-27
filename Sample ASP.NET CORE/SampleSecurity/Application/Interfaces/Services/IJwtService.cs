@@ -9,8 +9,8 @@ namespace Application.Interfaces.Services
 {
     public interface IJwtService
     {
-        string GenerateAccessToken(User user);
-        string GenerateRefreshToken(User user);
+        Task<string> GenerateAccessTokenAsync(User user);
+        Task<string> GenerateRefreshTokenAsync(User user);
 
 
     }

@@ -22,14 +22,15 @@ namespace Infrastructure.Services
             this.configuration = configuration;
         }
 
-        public string GenerateAccessToken(User user)
+        public async Task<string> GenerateAccessTokenAsync(User user)
         {
             //create claims:
-            var claims = new[]
+            var claims = await Task.Run(() => new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim("role", user.Role.ToString())
-            };
+            }
+            );
 
             //create signing key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Key));
@@ -44,18 +45,20 @@ namespace Infrastructure.Services
                 SigningCredentials = credentials
             };
             var tokenHandler = new JwtSecurityTokenHandler();
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
 
-        public string GenerateRefreshToken(User user)
+        public async Task<string> GenerateRefreshTokenAsync(User user)
         {
             //create claims:
-            var claims = new[]
+            var claims = await Task.Run(() => new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim("role", user.Role.ToString())
-            };
+            }
+            );
 
             //create signing key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Key));

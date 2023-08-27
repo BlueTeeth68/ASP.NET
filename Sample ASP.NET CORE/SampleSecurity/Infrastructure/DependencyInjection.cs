@@ -12,6 +12,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Mapper;
 using Application.Services;
+using Infrastructure.Services;
 
 namespace Infrastructure
 {
@@ -24,6 +25,7 @@ namespace Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IJwtService, JwtService>();
 
             //Add db context
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(databaseConnection));

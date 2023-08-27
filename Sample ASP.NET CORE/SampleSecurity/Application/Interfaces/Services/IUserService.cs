@@ -17,6 +17,8 @@ namespace Application.Interfaces.Services
 
         Task<int> DeleteAsync(int id);
 
+        public Task<ReturnLoginUserDTO> LoginAsync(UserLogin userLogin);
+
         //Task<UserDTO> UpdateAsync(UserDTO userDTO);
 
     }

@@ -14,11 +14,13 @@ namespace Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IJwtService _jwtService;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IJwtService jwtService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _jwtService = jwtService;
         }
 
         public async Task<UserDTO> CreateNewAsync(CreateUserDTO createUserDTO)
@@ -53,6 +55,25 @@ namespace Application.Services
             var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
             var userDTO = _mapper.Map<UserDTO>(user);
             return userDTO;
+        }
+
+        public async Task<ReturnLoginUserDTO> LoginAsync(UserLogin userLogin)
+        {
+            var user = await _unitOfWork.UserRepository.LoginAsync(userLogin);
+            if(user != null)
+            {
+                var mappingTask = Task.Run(() => _mapper.Map<ReturnLoginUserDTO>(user));
+                var tokenTask = _jwtService.GenerateAccessTokenAsync(user);
+
+                await Task.WhenAll(mappingTask, tokenTask);
+
+                var result = mappingTask.Result;
+                var token = tokenTask.Result;
+
+                result.Token = token;
+                return result;
+            }
+            return null;
         }
     }
 }

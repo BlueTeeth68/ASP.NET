@@ -21,6 +21,8 @@ namespace Infrastructure.Mapper
             CreateMap<User, UserDTO>()
                 .ForMember(dest => dest.Gender, src => src.MapFrom(src => src.Gender.ToString()))
                 .ForMember(dest => dest.Role, src => src.MapFrom(src => src.Role.ToString()));
+
+            CreateMap<User, ReturnLoginUserDTO>();
         }
     }
 }
