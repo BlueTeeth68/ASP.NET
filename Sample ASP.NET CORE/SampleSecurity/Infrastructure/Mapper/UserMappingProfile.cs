@@ -14,7 +14,6 @@ namespace Infrastructure.Mapper
     {
         public UserMappingProfile()
         {
-
             CreateMap<CreateUserDTO, User>()
                 .ForMember(dest => dest.PasswordHash, src => src.MapFrom(src => src.Password));
 
