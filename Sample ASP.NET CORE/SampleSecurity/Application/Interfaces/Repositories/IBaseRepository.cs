@@ -8,7 +8,7 @@ namespace Application.Interfaces.Repositories
 {
     public interface IBaseRepository<TEntity> where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(object id);
+        Task<TEntity?> GetByIdAsync(object? id);
 
         Task<List<TEntity>> GetAllAsync();
 
@@ -16,7 +16,7 @@ namespace Application.Interfaces.Repositories
 
         void Update (TEntity entity);
 
-        Task DeleteByIdAsync(object id);
+        Task DeleteByIdAsync(object? id);
         
 
 

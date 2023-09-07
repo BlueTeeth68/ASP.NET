@@ -2,10 +2,10 @@ using Application.Configurations;
 using Domain.Enums;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,42 +29,60 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
-        //ValidateIssuer = true,
-        //ValidateAudience = true,
-        ValidateIssuerSigningKey = true,
-        //ValidIssuer = _configuration["Jwt:Issuer"],
-        //ValidAudience = _configuration["Jwt:Audience"],
-        ValidateLifetime = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Key)),
-        ClockSkew = TimeSpan.Zero
-    };
-}
-    );
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            //ValidateIssuer = true,
+            //ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            //ValidIssuer = _configuration["Jwt:Issuer"],
+            //ValidAudience = _configuration["Jwt:Audience"],
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Key)),
+            ClockSkew = TimeSpan.Zero
+        };
+    }
+);
 
 //Auhtorization
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Admin", policy =>
-    {
-        policy.RequireRole(Role.Admin.ToString());
-    });
-    options.AddPolicy("Manager", policy =>
-    {
-        policy.RequireRole(Role.Manager.ToString());
-    });
-    options.AddPolicy("ManagerOrAdmin", policy =>
-    {
-        policy.RequireRole(Role.Manager.ToString(), Role.Admin.ToString());
-    });
+    options.AddPolicy("Admin", policy => { policy.RequireRole(Role.Admin.ToString()); });
+    options.AddPolicy("Manager", policy => { policy.RequireRole(Role.Manager.ToString()); });
+    options.AddPolicy("ManagerOrAdmin",
+        policy => { policy.RequireRole(Role.Manager.ToString(), Role.Admin.ToString()); });
 });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 var app = builder.Build();
 

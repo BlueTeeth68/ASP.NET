@@ -1,11 +1,6 @@
 ﻿using Application;
 using Application.Interfaces.Repositories;
 using Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure
 {
@@ -20,7 +15,10 @@ namespace Infrastructure
             _userRepository = userRepository;
         }
 
-        public IUserRepository UserRepository { get { return _userRepository; } }
+        public IUserRepository UserRepository
+        {
+            get { return _userRepository; }
+        }
 
         public async Task<int> SaveChangeAsync()
         {
