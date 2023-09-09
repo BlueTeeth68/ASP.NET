@@ -2,19 +2,14 @@
 using Application.Interfaces.Services;
 using Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
     public class JwtService : IJwtService
     {
-
         private readonly AppConfiguration configuration;
 
         public JwtService(AppConfiguration configuration)
@@ -26,10 +21,10 @@ namespace Infrastructure.Services
         {
             //create claims:
             var claims = await Task.Run(() => new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim("role", user.Role.ToString())
-            }
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                    new Claim("role", user.Role.ToString())
+                }
             );
 
             //create signing key
@@ -54,10 +49,10 @@ namespace Infrastructure.Services
         {
             //create claims:
             var claims = await Task.Run(() => new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim("role", user.Role.ToString())
-            }
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                    new Claim("role", user.Role.ToString())
+                }
             );
 
             //create signing key

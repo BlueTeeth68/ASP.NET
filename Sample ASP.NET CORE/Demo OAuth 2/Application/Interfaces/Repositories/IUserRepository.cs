@@ -10,7 +10,7 @@ namespace Application.Interfaces.Repositories
 {
     public interface IUserRepository: IBaseRepository<User>
     {
-        Task<User> GetByUsernameAsync(string username);
-        Task<User> LoginAsync(UserLogin userLogin);
+        Task<User?> GetByUsernameAsync(string username);
+        Task<User?> LoginAsync(UserLogin userLogin);
     }
 }

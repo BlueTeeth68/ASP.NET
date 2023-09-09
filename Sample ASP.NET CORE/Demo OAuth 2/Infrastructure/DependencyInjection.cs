@@ -11,7 +11,6 @@ using Infrastructure.Repositories;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Mapper;
-using Application.Services;
 using Infrastructure.Services;
 
 namespace Infrastructure

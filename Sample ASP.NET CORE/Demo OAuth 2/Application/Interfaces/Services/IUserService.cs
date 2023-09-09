@@ -1,15 +1,10 @@
 ﻿using Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Interfaces.Services
 {
     public interface IUserService
     {
-        Task<UserDTO> CreateNewAsync(CreateUserDTO createUserDTO);
+        Task<ReturnLoginUserDTO?> CreateNewAsync(CreateUserDTO createUserDto);
 
         Task<List<UserDTO>> GetAllAsync();
 
@@ -17,7 +12,7 @@ namespace Application.Interfaces.Services
 
         Task<int> DeleteAsync(int id);
 
-        public Task<ReturnLoginUserDTO> LoginAsync(UserLogin userLogin);
+        public Task<ReturnLoginUserDTO?> LoginAsync(UserLogin userLogin);
 
         //Task<UserDTO> UpdateAsync(UserDTO userDTO);
 

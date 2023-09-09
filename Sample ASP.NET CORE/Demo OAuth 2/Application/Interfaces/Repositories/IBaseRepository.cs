@@ -17,8 +17,6 @@ namespace Application.Interfaces.Repositories
         void Update (TEntity entity);
 
         Task DeleteByIdAsync(object? id);
-        
-
 
     }
 }

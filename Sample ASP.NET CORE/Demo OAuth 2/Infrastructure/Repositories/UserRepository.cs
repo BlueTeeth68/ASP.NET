@@ -17,14 +17,13 @@ namespace Infrastructure.Repositories
             return await _dbSet.FirstOrDefaultAsync(x => x.Username.Trim().ToLower().Equals(username.Trim().ToLower()));
         }
 
-
         public async Task<User> LoginAsync(UserLogin userLogin)
         {
             var user = await GetByUsernameAsync(userLogin.Username);
             if(user != null)
             {
                 //compare password
-                if (user.PasswordHash.Equals(userLogin.Password))
+                if (BCrypt.Net.BCrypt.EnhancedVerify(userLogin.Password, user.PasswordHash))
                     return user;
             }
             return null;
