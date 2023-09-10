@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.ErrorHandlers;
 using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace WebApi.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILogger<AuthenticationController> _logger;
 
-        public AuthenticationController(IUserService userService)
+        public AuthenticationController(IUserService userService, ILogger<AuthenticationController> logger)
         {
-            this._userService = userService;
+            _userService = userService;
+            _logger = logger;
         }
 
         [HttpPost("login")]
@@ -22,16 +25,20 @@ namespace WebApi.Controllers
         {
             var result = await _userService.LoginAsync(userLogin);
             if (result != null)
+            {
+                _logger.LogInformation("Log in success.");
                 return Ok(result);
-            
-            return BadRequest("Incorrect username or password.");
+            }
+
+            _logger.LogInformation("Log in fail.");
+            throw new BadHttpRequestException("Incorrect username or password.");
+            // return BadRequest("Incorrect username or password.");
         }
 
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] CreateUserDTO createUserDto)
         {
-            //var user = await userService.CreateNewAsync(createUserDTO);
-            //return Ok(user);
+            // throw new BadRequestException("Bad request for register information!");
 
             var createdUser = await _userService.CreateNewAsync(createUserDto);
             if (createdUser != null)

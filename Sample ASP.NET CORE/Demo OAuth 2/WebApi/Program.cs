@@ -1,15 +1,17 @@
 using Application.Configurations;
-using Domain.Enums;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.OpenApi.Models;
+using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add problem detail
+builder.Services.AddProblemDetails();
 
 //Add dependency injection
 var configuration = builder.Configuration.Get<AppConfiguration>();
@@ -30,7 +32,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        options.TokenValidationParameters = new TokenValidationParameters
         {
             //ValidateIssuer = true,
             //ValidateAudience = true,
@@ -45,13 +47,14 @@ builder.Services.AddAuthentication(options =>
 );
 
 //Auhtorization
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy => { policy.RequireRole(Role.Admin.ToString()); });
-    options.AddPolicy("Manager", policy => { policy.RequireRole(Role.Manager.ToString()); });
-    options.AddPolicy("ManagerOrAdmin",
-        policy => { policy.RequireRole(Role.Manager.ToString(), Role.Admin.ToString()); });
-});
+builder.Services.AddPolicy();
+// builder.Services.AddAuthorization(options =>
+// {
+//     options.AddPolicy("Admin", policy => { policy.RequireRole(Role.Admin.ToString()); });
+//     options.AddPolicy("Manager", policy => { policy.RequireRole(Role.Manager.ToString()); });
+//     options.AddPolicy("ManagerOrAdmin",
+//         policy => { policy.RequireRole(Role.Manager.ToString(), Role.Admin.ToString()); });
+// });
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -75,11 +78,11 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
-            new string[]{}
+            new string[] { }
         }
     });
 });
@@ -98,6 +101,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.MapControllers();
 

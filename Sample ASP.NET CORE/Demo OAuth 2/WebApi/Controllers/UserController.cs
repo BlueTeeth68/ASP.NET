@@ -12,10 +12,12 @@ namespace WebApi.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
-            this._userService = userService;
+            _userService = userService;
+            this._logger = logger;
         }
 
         [HttpGet]
