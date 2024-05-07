@@ -10,7 +10,6 @@
       <Folder Include="Exceptions\" />
       <Folder Include="Features\Common\Commands\Handlers\" />
       <Folder Include="Features\Common\Commands\Requests\" />
-      <Folder Include="Features\Common\DTOs\" />
       <Folder Include="Features\Common\Queries\Handlers\" />
       <Folder Include="Features\Common\Queries\Requests\" />
       <Folder Include="Features\Common\Services\" />

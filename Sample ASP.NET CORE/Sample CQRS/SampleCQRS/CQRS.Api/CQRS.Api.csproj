@@ -21,6 +21,7 @@
     <ItemGroup>
       <Folder Include="Authorization\" />
       <Folder Include="Models\" />
+      <Folder Include="Resources\" />
     </ItemGroup>
 
 </Project>

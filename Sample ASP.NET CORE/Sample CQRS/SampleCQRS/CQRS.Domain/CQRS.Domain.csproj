@@ -8,8 +8,6 @@
 
     <ItemGroup>
       <Folder Include="Constant\" />
-      <Folder Include="Entities\" />
-      <Folder Include="Repositories\" />
     </ItemGroup>
 
 </Project>

@@ -13,4 +13,8 @@
       <Folder Include="Web\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CQRS.Domain\CQRS.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
