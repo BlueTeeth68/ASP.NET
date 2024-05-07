@@ -11,14 +11,21 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddAuthorization();
+
+// builder.Services.AddAuthentication()
+//     .AddCookie(IdentityConstants.ApplicationScheme)
+//     .AddBearerToken(IdentityConstants.BearerScheme);
+    
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>();
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddApiEndpoints();
 
 builder.Services.ConfigureAll<BearerTokenOptions>(option => {
     option.BearerTokenExpiration = TimeSpan.FromMinutes(1);
@@ -37,6 +44,12 @@ if (app.Environment.IsDevelopment())
 app.MapIdentityApi<IdentityUser>();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 
 
