@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <Folder Include="Repositories\" />
+      <Folder Include="Web\Middlewares\" />
     </ItemGroup>
 
     <ItemGroup>

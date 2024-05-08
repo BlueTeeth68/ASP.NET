@@ -53,10 +53,10 @@ builder.Services.AddAuthentication(options =>
     .AddBearerToken(IdentityConstants.BearerScheme);
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddDefaultIdentity<User>()
     .AddRoles<IdentityRole>()
-    .AddSignInManager<SignInManager<User>>()
-    .AddDefaultUI()
+    // .AddSignInManager<SignInManager<User>>()
+    // .AddDefaultUI()
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddSwaggerGen(option =>
