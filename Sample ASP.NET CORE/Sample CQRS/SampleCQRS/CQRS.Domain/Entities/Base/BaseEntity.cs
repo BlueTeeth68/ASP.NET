@@ -2,13 +2,13 @@
 
 namespace CQRS.Domain.Entities.Base;
 
-public class BaseEntity<TKey> : IHasKey<TKey>, ITrackable
+public abstract class BaseEntity<TKey> : IHasKey<TKey>, ITrackable
 {
-    public TKey Id { get; set; }
+    [Key] public TKey Id { get; set; } = default(TKey);
 
-    public byte[] RowVersion { get; set; } = null!;
+    [Timestamp] public byte[] RowVersion { get; set; } = null!;
 
-    public DateTimeOffset CreatedDateTime { get; set; }
+    public DateTime CreatedDateTime { get; set; }
 
-    public DateTimeOffset? UpdatedDateTime { get; set; }
+    public DateTime? UpdatedDateTime { get; set; }
 }

@@ -3,8 +3,9 @@ using CQRS.Domain.Entities.Base;
 
 namespace CQRS.Domain.Repositories.Base;
 
-public interface IBaseRepository<TKey, TEntity> : IConcurrencyHandler<TEntity>
+public interface IBaseRepository<TEntity, TKey> : IConcurrencyHandler<TEntity>
     where TEntity : BaseEntity<TKey>, IAggregateRoot
+// where TEntity : IAggregateRoot
 {
     IQueryable<TEntity> GetQueryableSet();
 
@@ -18,23 +19,27 @@ public interface IBaseRepository<TKey, TEntity> : IConcurrencyHandler<TEntity>
 
     Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
 
-    Task UpdateRangeAsync(List<TEntity> entities, CancellationToken cancellationToken = default);
+    void UpdateRange(List<TEntity> entities, CancellationToken cancellationToken = default);
 
     void Delete(TEntity entity);
 
-    Task<T> FirstOrDefaultAsync<T>(IQueryable<T> query);
+    Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> query);
 
-    Task<T> SingleOrDefaultAsync<T>(IQueryable<T> query);
+    Task<T?> SingleOrDefaultAsync<T>(IQueryable<T> query);
 
     Task<List<T>> ToListAsync<T>(IQueryable<T> query);
 
-    void BulkInsert(IEnumerable<TEntity> entities);
+    Task BulkInsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
 
-    void BulkInsert(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> columnNamesSelector);
+    // Task BulkInsert(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> columnNamesSelector);
 
-    void BulkUpdate(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> columnNamesSelector);
+    // Task BulkUpdate(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> columnNamesSelector);
 
     // void BulkMerge(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> idSelector, Expression<Func<TEntity, object>> updateColumnNamesSelector, Expression<Func<TEntity, object>> insertColumnNamesSelector);
 
-    void BulkDelete(IEnumerable<TEntity> entities);
+    // Task BulkDelete(IEnumerable<TEntity> entities);
+
+    Task BulkUpdateAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
+
+    Task BulkDeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
 }
