@@ -9,6 +9,14 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.17"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.18">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.18">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
@@ -20,12 +28,15 @@
 
     <ItemGroup>
       <Folder Include="Authorization\" />
+      <Folder Include="MiddleWares\" />
       <Folder Include="Models\" />
       <Folder Include="Resources\" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CQRS.Application\CQRS.Application.csproj" />
+      <ProjectReference Include="..\CQRS.Infrastructure\CQRS.Infrastructure.csproj" />
+      <ProjectReference Include="..\CQRS.Persistence\CQRS.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

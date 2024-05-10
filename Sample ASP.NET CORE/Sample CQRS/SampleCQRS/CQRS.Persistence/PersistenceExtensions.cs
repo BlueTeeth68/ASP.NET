@@ -5,9 +5,9 @@ namespace CQRS.Persistence;
 
 public static class PersistenceExtensions
 {
-    public static IServiceCollection AddPersistence(this ServiceCollection services, string connectionString)
+    public static IServiceCollection AddPersistence(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString: connectionString));
+        services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(connectionString: connectionString));
 
         return services;
     }
