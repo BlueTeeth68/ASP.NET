@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace CQRS.Application.ErrorHandlers.Base;
+namespace CQRS.Domain.Exceptions.Base;
 
 public class ErrorDetail
 {

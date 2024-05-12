@@ -1,20 +1,20 @@
 ﻿using System.Net;
-using CQRS.Application.ErrorHandlers.Base;
+using CQRS.Domain.Exceptions.Base;
 
-namespace CQRS.Application.ErrorHandlers;
+namespace CQRS.Domain.Exceptions;
 
-public class ForbiddenException: BaseException
+public class ConflictException: BaseException
 {
     private const int _statusCode = (int)HttpStatusCode.Conflict;
     private const string? _title = "Resource conflict.";
 
-    public ForbiddenException()
+    public ConflictException()
     {
         StatusCode = _statusCode;
         Title = _title;
     }
 
-    public ForbiddenException(string? message) : base(message)
+    public ConflictException(string? message) : base(message)
     {
         StatusCode = _statusCode;
         Title = _title;

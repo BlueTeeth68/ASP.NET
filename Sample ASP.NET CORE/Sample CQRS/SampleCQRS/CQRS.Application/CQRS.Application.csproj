@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -12,7 +12,6 @@
       <Folder Include="Features\Common\Commands\Requests\" />
       <Folder Include="Features\Common\Queries\Handlers\" />
       <Folder Include="Features\Common\Queries\Requests\" />
-      <Folder Include="Features\Common\Services\" />
       <Folder Include="Features\Roles\Commands\Handlers\" />
       <Folder Include="Features\Roles\Commands\Requests\" />
       <Folder Include="Features\Roles\DTOs\" />
@@ -20,11 +19,10 @@
       <Folder Include="Features\Roles\Queries\Handlers\" />
       <Folder Include="Features\Roles\Queries\Requests\" />
       <Folder Include="Features\Roles\Services\" />
-      <Folder Include="Features\Users\Commands\Handlers\" />
-      <Folder Include="Features\Users\Commands\Requests\" />
-      <Folder Include="Features\Users\DTOs\" />
+      <Folder Include="Features\Users\Commands\Notifications\" />
       <Folder Include="Features\Users\Mappers\" />
       <Folder Include="Features\Users\Queries\Handlers\" />
+      <Folder Include="Features\Users\Queries\Notifications\" />
       <Folder Include="Features\Users\Queries\Requests\" />
       <Folder Include="Features\Users\Services\" />
       <Folder Include="Utils\" />

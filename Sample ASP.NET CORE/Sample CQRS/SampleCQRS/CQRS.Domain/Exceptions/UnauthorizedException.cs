@@ -1,12 +1,12 @@
 ﻿using System.Net;
-using CQRS.Application.ErrorHandlers.Base;
+using CQRS.Domain.Exceptions.Base;
 
-namespace CQRS.Application.ErrorHandlers;
+namespace CQRS.Domain.Exceptions;
 
 public class UnauthorizedException:BaseException
 {
     private const int _statusCode = (int)HttpStatusCode.NotFound;
-    private const string? _title = "Resource conflict.";
+    private const string? _title = "Un authorized.";
 
     public UnauthorizedException()
     {

@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using CQRS.Application.ErrorHandlers.Base;
+using CQRS.Domain.Exceptions.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

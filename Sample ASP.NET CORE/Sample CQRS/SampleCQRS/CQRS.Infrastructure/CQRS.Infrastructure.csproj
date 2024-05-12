@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -10,16 +10,16 @@
       <Folder Include="Caching\" />
       <Folder Include="ExtensionMethods\" />
       <Folder Include="Storage\" />
-      <Folder Include="Web\Authentication\" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CQRS.Application\CQRS.Application.csproj" />
       <ProjectReference Include="..\CQRS.Domain\CQRS.Domain.csproj" />
+      <ProjectReference Include="..\CQRS.Persistence\CQRS.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+      <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
     </ItemGroup>
 
 </Project>

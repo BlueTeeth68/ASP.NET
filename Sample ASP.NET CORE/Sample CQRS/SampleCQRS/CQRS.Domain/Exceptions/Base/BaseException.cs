@@ -1,4 +1,4 @@
-﻿namespace CQRS.Application.ErrorHandlers.Base;
+﻿namespace CQRS.Domain.Exceptions.Base;
 
 public class BaseException : Exception
 {
